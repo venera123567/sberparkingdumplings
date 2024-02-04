@@ -14,11 +14,11 @@ class User:
         self.cars = cars
 
     def setupByDict(self, dictionary):
-        self.last_name = dictionary['last_name']
-        self.first_name = dictionary['first_name']
-        self.middle_name = dictionary['middle_name']
-        self.phone = dictionary['phone']
-        self.flat = dictionary['flat']
+        self.last_name = dictionary.get("last_name", "")
+        self.first_name = dictionary.get("first_name", "")
+        self.middle_name = dictionary.get("middle_name", "")
+        self.phone = dictionary.get("phone", "")
+        self.flat = dictionary.get("flat", "")
         car_numbers = dictionary.get("car_numbers", None)
         if car_numbers is not None:
             cars = []
