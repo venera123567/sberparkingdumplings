@@ -19,11 +19,10 @@ bot = Bot(TOKEN_API)
 dp = Dispatcher()
 
 
-con = sqlite3.connect('parking_DB.sqlite3')
-cur = con.cursor()
-
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
+    con = sqlite3.connect('parking_DB.sqlite3')
+    cur = con.cursor()
     user = cur.execute('''SELECT * FROM users WHERE chat_id=?''', (message.from_user.id,)).fetchall()
     try:
         if user[0][2] == 2:
@@ -44,7 +43,7 @@ async def cmd_start(message: types.Message):
     except IndexError:
         await bot.send_sticker(chat_id=message.from_user.id, sticker='CAACAgIAAxkBAAELUF1lv2UU9IQrDu5Gj5cg_ZcvG1I5tQAC1TwAAqm8-Ul3BnglWYK4BjQE')
         await bot.send_message(chat_id=message.from_user.id, text='Вам выдана роль жителя')
-        cur.execute('''INSERT INTO users(chat_id, permissions)''', (message.from_user.id, '0'))
+        cur.execute('''INSERT INTO users(chat_id, permissions) VALUES(?, ?)''', (message.from_user.id, 0))
         con.commit()
         con.close()
         print(message.from_user.id)
