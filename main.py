@@ -30,19 +30,19 @@ async def cmd_start(message: types.Message):
             roleStore[message.from_user.id] = 'admin'
             kb_admin_buttons = getMainButtonsByRole('admin')
             kb_admin = ReplyKeyboardMarkup(keyboard=[kb_admin_buttons], resize_keyboard=True)
-            await bot.send_message(chat_id=message.from_user.id, text=f'Hello admin!', reply_markup=kb_admin)
+            await bot.send_sticker(chat_id=message.from_user.id, sticker="CAACAgIAAxkBAAELUAABZb86g3bdM6o8ROdJ139VrtvBtYMAAvw-AAL-dQFKbSV49k-mUF40BA", reply_markup=kb_admin)
         elif user[0][3] == 1:
             roleStore[message.from_user.id] = 'security'
             kb_security_buttons = getMainButtonsByRole('security')
             kb_security = ReplyKeyboardMarkup(keyboard=[kb_security_buttons], resize_keyboard=True)
-            await bot.send_message(chat_id=message.from_user.id, text=f'Hello security!', reply_markup=kb_security)
+            await bot.send_sticker(chat_id=message.from_user.id, sticker="CAACAgIAAxkBAAELUAZlvzqVn2Ft7ShSIIYE50CBhlhvUAACpUAAAiolAAFK4fWw_8FAxzo0BA", reply_markup=kb_security)
         elif user[0][3] == 0:
             roleStore[message.from_user.id] = 'tenant'
             kb_tenant_buttons = getMainButtonsByRole('tenant')
             kb_tenant = ReplyKeyboardMarkup(keyboard=[kb_tenant_buttons], resize_keyboard=True)
-            await bot.send_message(chat_id=message.from_user.id, text=f'Hello tenant!', reply_markup=kb_tenant)
+            await bot.send_sticker(chat_id=message.from_user.id, sticker="CAACAgIAAxkBAAELUAFlvzqEN8ccBd-LGiEdNw-lN2_NVQACgkkAAvxd-UmsGcBeJcWzGDQE", reply_markup=kb_tenant)
     except IndexError:
-        await bot.send_message(chat_id=message.from_user.id, text=f'NOT FOUND: {message.from_user.id}')
+        await bot.send_sticker(chat_id=message.from_user.id, sticker='CAACAgIAAxkBAAELUF1lv2UU9IQrDu5Gj5cg_ZcvG1I5tQAC1TwAAqm8-Ul3BnglWYK4BjQE')
         print(message.from_user.id)
 
 

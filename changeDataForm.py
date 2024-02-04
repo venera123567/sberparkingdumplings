@@ -6,6 +6,9 @@ from router import form_router
 from buttons import getMainButtons
 from models.User import User
 
+import sqlite3
+
+
 class ChangeDataForm(StatesGroup):
     last_name = State()
     first_name = State()
@@ -49,10 +52,33 @@ async def process_flat(message: Message, state: FSMContext):
         new_user_data = User()
         new_user_data.setupByDict(data)
         # сохранение в БД
+        con = sqlite3.connect('parking_DB.sqlite3')
+        cur = con.cursor()
+        user_from_bd = cur.execute('''SELECT id FROM usersdata WHERE chat_id = ?''', (message.from_user.id,)).fetchall()
+        if len(user_from_bd) == 0:
+            cur.execute('''INSERT INTO usersdata(chat_id, fio, phone) VALUES(?, ?, ?)''',
+                        (message.from_user.id, 'ФИО отсутствует', 'Телефон отсутствует'))
+        cur.execute('''UPDATE usersdata SET fio = ?
+                                WHERE chat_id = ?''',
+                    (f'{new_user_data.last_name} {new_user_data.first_name} {new_user_data.middle_name}',
+                     message.from_user.id))
+        cur.execute('''UPDATE usersdata SET phone = ?
+                                WHERE chat_id = ?''',
+                    (str(new_user_data.phone), message.from_user.id))
+        user_from_bd = cur.execute('''SELECT user_id FROM tenants WHERE user_id = ?''',
+                                   (message.from_user.id,)).fetchall()
+        if len(user_from_bd) == 0:
+            cur.execute('''INSERT INTO tenants(user_id, appartment) VALUES(?, ?)''',
+                        (message.from_user.id, 'Квартира отсутсвует'))
+        cur.execute('''UPDATE tenants SET appartment = ?
+                                WHERE user_id = ?''',
+                    (str(new_user_data.flat), message.from_user.id))
+        con.commit()
+        con.close()
         await state.clear()
         buttons = getMainButtons(message.from_user.id)
         kb = ReplyKeyboardMarkup(keyboard=[buttons], resize_keyboard=True)
         await message.answer("Данные сохранены", reply_markup=kb)
         text = (f"Новые данные: {new_user_data.last_name} {new_user_data.first_name} {new_user_data.middle_name}, "
                 f"тел. {new_user_data.phone}, кв. {new_user_data.flat}")
-        await message.answer(text=text)
+        await message.answer(text=text, reply_markup=kb)
