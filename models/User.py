@@ -19,10 +19,10 @@ class User:
         self.middle_name = dictionary['middle_name']
         self.phone = dictionary['phone']
         self.flat = dictionary['flat']
-        car_numbers = dictionary['car_numbers']
-        if car_numbers is None:
-            car_numbers = []
-        cars = []
-        for number in car_numbers:
-            cars.append(Car(transformCarNumber(number)))
-        self.cars = cars
+        car_numbers = dictionary.get("car_numbers", None)
+        if car_numbers is not None:
+            cars = []
+            for number in car_numbers:
+                cars.append(Car(transformCarNumber(number)))
+            self.cars = cars
+

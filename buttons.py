@@ -8,6 +8,7 @@ b1_tenant = types.KeyboardButton(text='Скорректировать мои д�
 b2_tenant = types.KeyboardButton(text='Временные гости')
 
 b1_security = types.KeyboardButton(text='Просматривать записи')
+b2_security = types.KeyboardButton(text='Проверить номер машины')
 
 
 
@@ -24,7 +25,7 @@ def getMainButtonsByRole(role):
     if role == 'admin':
         return [b1_admin, b2_admin]
     elif role == 'security':
-        return [b1_security]
+        return [b1_security, b2_security]
     else:
         return [b1_tenant, b2_tenant]
 

@@ -55,4 +55,4 @@ async def process_flat(message: Message, state: FSMContext):
         await message.answer("Данные сохранены", reply_markup=kb)
         text = (f"Новые данные: {new_user_data.last_name} {new_user_data.first_name} {new_user_data.middle_name}, "
                 f"тел. {new_user_data.phone}, кв. {new_user_data.flat}")
-        await message.answer(text=text, reply_markup=kb)
+        await message.answer(text=text)

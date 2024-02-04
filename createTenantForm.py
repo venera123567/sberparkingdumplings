@@ -93,4 +93,4 @@ async def process_not_add(message: Message, state: FSMContext):
                 f"тел. {new_user_data.phone}, кв. {new_user_data.flat}")
         for car in new_user_data.cars:
             text += f", авто {car.number}"
-        await message.answer(text=text, reply_markup=kb)
+        await message.answer(text=text)
