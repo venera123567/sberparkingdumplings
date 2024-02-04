@@ -26,17 +26,17 @@ cur = con.cursor()
 async def cmd_start(message: types.Message):
     user = cur.execute('''SELECT * FROM users WHERE chat_id=?''', (message.from_user.id,)).fetchall()
     try:
-        if user[0][3] == 2:
+        if user[0][2] == 2:
             roleStore[message.from_user.id] = 'admin'
             kb_admin_buttons = getMainButtonsByRole('admin')
             kb_admin = ReplyKeyboardMarkup(keyboard=[kb_admin_buttons], resize_keyboard=True)
             await bot.send_sticker(chat_id=message.from_user.id, sticker="CAACAgIAAxkBAAELUAABZb86g3bdM6o8ROdJ139VrtvBtYMAAvw-AAL-dQFKbSV49k-mUF40BA", reply_markup=kb_admin)
-        elif user[0][3] == 1:
+        elif user[0][2] == 1:
             roleStore[message.from_user.id] = 'security'
             kb_security_buttons = getMainButtonsByRole('security')
             kb_security = ReplyKeyboardMarkup(keyboard=[kb_security_buttons], resize_keyboard=True)
             await bot.send_sticker(chat_id=message.from_user.id, sticker="CAACAgIAAxkBAAELUAZlvzqVn2Ft7ShSIIYE50CBhlhvUAACpUAAAiolAAFK4fWw_8FAxzo0BA", reply_markup=kb_security)
-        elif user[0][3] == 0:
+        elif user[0][2] == 0:
             roleStore[message.from_user.id] = 'tenant'
             kb_tenant_buttons = getMainButtonsByRole('tenant')
             kb_tenant = ReplyKeyboardMarkup(keyboard=[kb_tenant_buttons], resize_keyboard=True)
