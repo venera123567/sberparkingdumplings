@@ -107,14 +107,20 @@ async def process_not_add(message: Message, state: FSMContext):
     new_user_data.setupByDict(data)
     con = sqlite3.connect('parking_DB.sqlite3')
     cur = con.cursor()
-    cur.execute('''INSERT INTO users(chat_id, permissions)''', (new_user_data.chat_id, 0))
+    check = cur.execute('''SELECT * FROM users WHERE chat_id = ?''',
+                        (new_user_data.chat_id,)).fetchall()
+    if len(check) == 0:
+        cur.execute('''INSERT INTO users(chat_id, permissions)''', (new_user_data.chat_id, 0))
+    else:
+        cur.execute('''UPDATE users SET permissions = ? WHERE chat_id = ?''',
+                    (0, new_user_data.chat_id))
     cur.execute('''INSERT INTO usersdata(chat_id, fio, phone)''',
                 (new_user_data.chat_id,
                  f"{new_user_data.last_name} {new_user_data.first_name} {new_user_data.middle_name}",
                  new_user_data.phone))
     for car in new_user_data.cars:
         cur.execute('''INSERT INTO cars(chat_id, car, comment)''',
-                    (new_user_data.chat_id, car, 'Авто добавлено админисратором'))
+                    (new_user_data.chat_id, car.number, 'Авто добавлено админисратором'))
     con.commit()
     con.close()
     await state.clear()

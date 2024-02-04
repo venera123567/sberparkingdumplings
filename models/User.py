@@ -3,9 +3,10 @@ from stringUtils import transformCarNumber
 
 
 class User:
-    def __init__(self, last_name='', first_name='', middle_name='', phone='', flat='', cars=None):
+    def __init__(self, chat_id='', last_name='', first_name='', middle_name='', phone='', flat='', cars=None):
         if cars is None:
             cars = []
+        self.chat_id = chat_id
         self.last_name = last_name
         self.first_name = first_name
         self.middle_name = middle_name
@@ -14,6 +15,7 @@ class User:
         self.cars = cars
 
     def setupByDict(self, dictionary):
+        self.chat_id = dictionary.get("chat_id", "")
         self.last_name = dictionary.get("last_name", "")
         self.first_name = dictionary.get("first_name", "")
         self.middle_name = dictionary.get("middle_name", "")

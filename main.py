@@ -43,6 +43,10 @@ async def cmd_start(message: types.Message):
             await bot.send_sticker(chat_id=message.from_user.id, sticker="CAACAgIAAxkBAAELUAFlvzqEN8ccBd-LGiEdNw-lN2_NVQACgkkAAvxd-UmsGcBeJcWzGDQE", reply_markup=kb_tenant)
     except IndexError:
         await bot.send_sticker(chat_id=message.from_user.id, sticker='CAACAgIAAxkBAAELUF1lv2UU9IQrDu5Gj5cg_ZcvG1I5tQAC1TwAAqm8-Ul3BnglWYK4BjQE')
+        await bot.send_message(chat_id=message.from_user.id, text='Вам выдана роль жителя')
+        cur.execute('''INSERT INTO users(chat_id, permissions)''', (message.from_user.id, '0'))
+        con.commit()
+        con.close()
         print(message.from_user.id)
 
 
