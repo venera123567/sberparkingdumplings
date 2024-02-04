@@ -1,4 +1,4 @@
-from Car import Car
+from models.Car import Car
 from stringUtils import transformCarNumber
 
 

@@ -4,7 +4,3 @@ class Car:
         self.start_date = start_date
         self.end_date = end_date
         self.comment = comment
-
-    def setupByDict(self, dictionary):
-        for k, v in dictionary.items():
-            setattr(self, k, v)

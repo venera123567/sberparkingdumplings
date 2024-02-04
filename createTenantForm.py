@@ -57,7 +57,7 @@ async def process_flat(message: Message, state: FSMContext):
 @form_router.message(CreateTenantForm.car_number)
 async def process_car_number(message: Message, state: FSMContext):
         data = await state.get_data()
-        car_numbers = data['car_numbers']
+        car_numbers = data.get('car_numbers', None)
         if car_numbers is None:
             car_numbers = []
         car_numbers.append(transformCarNumber(message.text))
@@ -77,7 +77,7 @@ async def process_car_number(message: Message, state: FSMContext):
 @form_router.message(CreateTenantForm.add_more, F.text.lower() == "да")
 async def process_add_car(message: Message, state: FSMContext):
     await state.set_state(CreateTenantForm.car_number)
-    await message.answer("Введите номер машины")
+    await message.answer("Введите номер машины", reply_markup=ReplyKeyboardRemove())
 
 @form_router.message(CreateTenantForm.add_more, F.text.lower() == "нет")
 async def process_not_add(message: Message, state: FSMContext):
